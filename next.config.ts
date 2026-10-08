@@ -1,9 +1,23 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.rawg.io",
+      },
+    ],
+  },
+
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: "asset/resource",
+    });
+
+    return config;
+  },
 };
 
 export default nextConfig;
