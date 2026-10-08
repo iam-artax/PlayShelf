@@ -24,10 +24,12 @@ function mapGame(game: RawgGame): Game {
     cover: game.background_image,
     released: game.released,
     rating: game.rating,
-    genres: game.genres.map((genre) => genre.name),
-    platforms: game.platforms.map(
-      ({ platform }) => platform.name,
-    ),
+    metacritic: game.metacritic,
+    genres: game.genres?.map((genre) => genre.name) ?? [],
+    platforms:
+      game.platforms?.map(
+        ({ platform }) => platform.name,
+      ) ?? [],
   };
 }
 
@@ -52,7 +54,8 @@ export async function searchGames(
     );
   }
 
-  const data: RawgGamesResponse = await response.json();
+  const data: RawgGamesResponse =
+    await response.json();
 
   return data.results.map(mapGame);
 }

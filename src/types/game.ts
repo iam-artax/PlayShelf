@@ -1,3 +1,9 @@
+export type GameStatus =
+  | "playing"
+  | "next-up"
+  | "complete"
+  | "dropped";
+
 export type Game = {
   id: number;
   name: string;
@@ -5,6 +11,7 @@ export type Game = {
   cover: string | null;
   released: string | null;
   rating: number | null;
+  metacritic: number | null;
   genres: string[];
   platforms: string[];
 };
@@ -16,16 +23,17 @@ export type RawgGame = {
   background_image: string | null;
   released: string | null;
   rating: number;
+  metacritic: number | null;
   genres: {
     id: number;
     name: string;
-  }[];
+  }[] | null;
   platforms: {
     platform: {
       id: number;
       name: string;
     };
-  }[];
+  }[] | null;
 };
 
 export type RawgGamesResponse = {
