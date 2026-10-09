@@ -1,56 +1,32 @@
 "use client";
 
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
 import GameGrid from "@/components/GameGrid/GameGrid";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { searchRawgGames } from "@/lib/rawg-client";
 
 import type { Game } from "@/types/game";
 
 import styles from "./search.module.css";
 
 export default function SearchPage() {
-  const [games, setGames] =
-    useState<Game[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [isLoading, setIsLoading] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
-  async function handleSearch(
-    query: string,
-  ) {
+  async function handleSearch(query: string) {
     setIsLoading(true);
     setError("");
 
     try {
-      const response =
-        await fetch(
-          `/api/games/search?q=${encodeURIComponent(
-            query,
-          )}`,
-        );
-
-      if (!response.ok) {
-        throw new Error(
-          "Search failed",
-        );
-      }
-
-      const data: {
-        results: Game[];
-      } = await response.json();
-
-      setGames(data.results);
-    } catch {
+      const results = await searchRawgGames(query);
+      setGames(results);
+    } catch (error) {
+      console.error("Game search failed:", error);
       setGames([]);
-
       setError(
-        "Something went wrong. Please try again.",
+        "Search failed. Check your internet connection and RAWG API key.",
       );
     } finally {
       setIsLoading(false);
@@ -60,16 +36,11 @@ export default function SearchPage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}>
-          DISCOVER
-        </p>
+        <p className={styles.eyebrow}>DISCOVER</p>
 
         <h1>Search Games</h1>
 
-        <p>
-          Find games to add to your
-          library.
-        </p>
+        <p>Find games to add to your library.</p>
       </header>
 
       <SearchBar
@@ -89,10 +60,7 @@ export default function SearchPage() {
             className="bx bx-loader-alt bx-spin"
             aria-hidden="true"
           />
-
-          <span>
-            Searching...
-          </span>
+          <span>Searching...</span>
         </div>
       ) : (
         <GameGrid games={games} />

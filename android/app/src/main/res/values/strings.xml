@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PlayShelf</string>
+    <string name="title_activity_main">PlayShelf</string>
+    <string name="package_name">dev.iamartax.playshelf</string>
+    <string name="custom_url_scheme">dev.iamartax.playshelf</string>
+</resources>
