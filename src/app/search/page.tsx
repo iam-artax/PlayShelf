@@ -15,23 +15,26 @@ export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function handleSearch(query: string) {
-    setIsLoading(true);
-    setError("");
+async function handleSearch(query: string) {
+  setIsLoading(true);
+  setError("");
 
-    try {
-      const results = await searchRawgGames(query);
-      setGames(results);
-    } catch (error) {
-      console.error("Game search failed:", error);
-      setGames([]);
-      setError(
-        "Search failed. Check your internet connection and RAWG API key.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
+  try {
+    const results = await searchRawgGames(query);
+    setGames(results);
+  } catch (error) {
+    console.error("Game search failed:", error);
+    setGames([]);
+
+    setError(
+      error instanceof Error
+        ? error.message
+        : "Game search failed. Please try again.",
+    );
+  } finally {
+    setIsLoading(false);
   }
+}
 
   return (
     <main className={styles.page}>

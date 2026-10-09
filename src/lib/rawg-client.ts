@@ -4,19 +4,9 @@ import type {
   RawgGamesResponse,
 } from "@/types/game";
 
+import { getRawgApiKey } from "@/lib/rawg-api-key";
+
 const RAWG_API_URL = "https://api.rawg.io/api";
-
-function getApiKey(): string {
-  const apiKey = process.env.NEXT_PUBLIC_RAWG_API_KEY;
-
-  if (!apiKey) {
-    throw new Error(
-      "NEXT_PUBLIC_RAWG_API_KEY is missing from .env.local",
-    );
-  }
-
-  return apiKey;
-}
 
 function mapRawgGame(game: RawgGame): Game {
   return {
@@ -42,8 +32,16 @@ export async function searchRawgGames(
     return [];
   }
 
+  const apiKey = getRawgApiKey();
+
+  if (!apiKey) {
+    throw new Error(
+      "Add your RAWG API key in Settings before searching for games.",
+    );
+  }
+
   const params = new URLSearchParams({
-    key: getApiKey(),
+    key: apiKey,
     search: normalizedQuery,
     page_size: "10",
   });
@@ -57,6 +55,12 @@ export async function searchRawgGames(
   } catch {
     throw new Error(
       "Could not connect to RAWG. Check your internet connection.",
+    );
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    throw new Error(
+      "RAWG rejected your API key. Check or update it in Settings.",
     );
   }
 

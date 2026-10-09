@@ -1,11 +1,18 @@
 "use client";
 
 import {
+  useEffect,
   useRef,
   useState,
 } from "react";
 
 import { downloadOrShareBackup } from "@/lib/backup-export";
+
+import {
+  getRawgApiKey,
+  removeRawgApiKey,
+  saveRawgApiKey,
+} from "@/lib/rawg-api-key";
 
 import {
   useTheme,
@@ -72,6 +79,14 @@ export default function SettingsPage() {
   const [isImporting, setIsImporting] =
     useState(false);
 
+    const [apiKey, setApiKey] = useState("");
+    const [showApiKey, setShowApiKey] = useState(false);
+    const [apiKeyMessage, setApiKeyMessage] = useState("");
+
+    useEffect(() => {
+      setApiKey(getRawgApiKey());
+    }, []);
+
   function handleThemeChange(
     nextTheme: Theme,
   ) {
@@ -103,6 +118,23 @@ export default function SettingsPage() {
 
   function handleImportClick() {
     fileInputRef.current?.click();
+  }
+
+  function handleSaveApiKey() {
+    try {
+      saveRawgApiKey(apiKey);
+      setApiKey(getRawgApiKey());
+      setApiKeyMessage("RAWG API key saved on this device.");
+    } catch {
+      setApiKeyMessage("Enter your RAWG API key first.");
+    }
+  }
+
+  function handleRemoveApiKey() {
+    removeRawgApiKey();
+    setApiKey("");
+    setShowApiKey(false);
+    setApiKeyMessage("RAWG API key removed.");
   }
 
   async function handleImport(
@@ -299,6 +331,80 @@ export default function SettingsPage() {
           </div>
         </div>
       </section>
+
+  <section className={styles.section}>
+    <h2>RAWG API</h2>
+
+    <div className={styles.card}>
+      <div className={styles.dataDescription}>
+        <div className={styles.icon}>
+          <i className="bx bx-key" aria-hidden="true" />
+        </div>
+
+        <div>
+          <strong>RAWG API Key</strong>
+          <span>
+            Enter your own API key to search for games.
+            It is stored locally on this device.
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.apiKeyForm}>
+        <label htmlFor="rawg-api-key">
+          API key
+        </label>
+
+        <input
+          id="rawg-api-key"
+          type={showApiKey ? "text" : "password"}
+          value={apiKey}
+          onChange={(event) => {
+            setApiKey(event.target.value);
+            setApiKeyMessage("");
+          }}
+          placeholder="Enter your RAWG API key"
+          autoComplete="off"
+          spellCheck={false}
+        />
+
+        <label className={styles.apiKeyToggle}>
+          <input
+            type="checkbox"
+            checked={showApiKey}
+            onChange={(event) => setShowApiKey(event.target.checked)}
+          />
+          Show API key
+        </label>
+      </div>
+
+      <div className={styles.dataButtons}>
+        <button
+          type="button"
+          onClick={handleSaveApiKey}
+          disabled={!apiKey.trim()}
+        >
+          <i className="bx bx-save" aria-hidden="true" />
+          Save key
+        </button>
+
+        <button
+          type="button"
+          onClick={handleRemoveApiKey}
+          disabled={!apiKey}
+        >
+          <i className="bx bx-trash" aria-hidden="true" />
+          Remove key
+        </button>
+      </div>
+
+      {apiKeyMessage && (
+        <p className={styles.dataMessage} role="status">
+          {apiKeyMessage}
+        </p>
+      )}
+    </div>
+  </section>
 
       <section className={styles.section}>
         <h2>Data</h2>

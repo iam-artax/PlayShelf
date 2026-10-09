@@ -370,6 +370,56 @@
   font-weight: 600;
 }
 
+/* RAWG API key */
+
+.apiKeyForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 13px 13px;
+}
+
+.apiKeyForm > label:first-child {
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.apiKeyForm > input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 11px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+
+  font: inherit;
+  font-size: 0.75rem;
+}
+
+.apiKeyForm > input:focus {
+  border-color: var(--color-primary);
+  outline: 1px solid var(--color-primary);
+}
+
+.apiKeyToggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+.apiKeyToggle input {
+  accent-color: var(--color-primary);
+}
+
+
 @media (min-width: 520px) {
   .page {
     padding-right: 0;
