@@ -11,6 +11,8 @@
   "dependencies": {
     "@capacitor/android": "^8.5.3",
     "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.4",
+    "@capacitor/share": "^8.0.3",
     "@surrealdb/wasm": "3.1.0",
     "boxicons": "^2.1.4",
     "next": "16.4.0",

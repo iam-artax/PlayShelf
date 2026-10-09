@@ -5,6 +5,8 @@ import {
   useState,
 } from "react";
 
+import { downloadOrShareBackup } from "@/lib/backup-export";
+
 import {
   useTheme,
   type AccentColor,
@@ -80,52 +82,22 @@ export default function SettingsPage() {
     setDataMessage("");
 
     try {
-      const games =
-        await exportLibrary();
+      const games = await exportLibrary();
 
       const backup = {
         app: "PlayShelf",
         version: 1,
-        exportedAt:
-          new Date().toISOString(),
+        exportedAt: new Date().toISOString(),
         library: games,
       };
 
-      const blob = new Blob(
-        [JSON.stringify(backup, null, 2)],
-        {
-          type: "application/json",
-        },
-      );
+      await downloadOrShareBackup(backup);
 
-      const url =
-        URL.createObjectURL(blob);
-
-      const link =
-        document.createElement("a");
-
-      link.href = url;
-      link.download =
-        "playshelf-backup.json";
-
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      URL.revokeObjectURL(url);
-
-      setDataMessage(
-        `${games.length} games exported.`,
-      );
+      setDataMessage(`${games.length} games exported.`);
     } catch (error) {
-      console.error(
-        "Failed to export library:",
-        error,
-      );
+      console.error("Failed to export library:", error);
 
-      setDataMessage(
-        "Failed to export your library.",
-      );
+      setDataMessage("Failed to export your library.");
     }
   }
 
