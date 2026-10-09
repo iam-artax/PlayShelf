@@ -20,7 +20,7 @@ export default function SearchBar({
 
     const trimmedQuery = query.trim();
 
-    if (!trimmedQuery) {
+    if (!trimmedQuery || isLoading) {
       return;
     }
 
@@ -28,14 +28,12 @@ export default function SearchBar({
   }
 
   return (
-    <form
-      className={styles.form}
-      onSubmit={handleSubmit}
-    >
+    <form className={styles.form} onSubmit={handleSubmit}>
       <input
         className={styles.input}
         type="search"
         placeholder="Search games..."
+        aria-label="Search games"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         disabled={isLoading}
@@ -44,9 +42,21 @@ export default function SearchBar({
       <button
         className={styles.button}
         type="submit"
+        aria-label={isLoading ? "Searching games" : "Search games"}
+        title={isLoading ? "Searching..." : "Search"}
         disabled={isLoading || !query.trim()}
       >
-        {isLoading ? "Searching..." : "Search"}
+        {isLoading ? (
+          <i
+            className={`bx bx-loader-alt bx-spin ${styles.icon}`}
+            aria-hidden="true"
+          />
+        ) : (
+          <i
+            className={`bx bx-search ${styles.icon}`}
+            aria-hidden="true"
+          />
+        )}
       </button>
     </form>
   );

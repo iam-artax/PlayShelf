@@ -1,33 +1,21 @@
 .form {
   display: flex;
-
   width: 100%;
-
   margin-bottom: 20px;
-
   gap: 7px;
 }
 
 .input {
   min-width: 0;
   height: 42px;
-
   flex: 1;
-
   padding: 0 12px;
-
-  border: 1px solid
-    var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-
   outline: none;
-
   background: var(--color-surface);
-
   color: var(--color-text);
-
   font-size: 0.78rem;
-
   -webkit-appearance: none;
 }
 
@@ -40,21 +28,26 @@
 }
 
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
   height: 42px;
-
-  padding: 0 14px;
-
+  flex-shrink: 0;
+  padding: 0;
   border: 0;
   border-radius: 10px;
-
   background: var(--color-primary);
-
   color: #ffffff;
-
-  font-size: 0.73rem;
-  font-weight: 700;
-
   cursor: pointer;
+  transition:
+    transform 150ms ease,
+    opacity 150ms ease;
+}
+
+.icon {
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .button:active {
