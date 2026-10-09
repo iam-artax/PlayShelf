@@ -23,9 +23,24 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Disable text selection across the app */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Keep text selection enabled for interactive fields */
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
