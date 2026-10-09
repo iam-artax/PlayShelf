@@ -21,6 +21,7 @@
     "surrealdb": "^2.0.10"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.5.3",
     "@types/node": "^20",
     "@types/react": "^19",
