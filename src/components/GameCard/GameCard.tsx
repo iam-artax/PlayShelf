@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import CachedImage from "@/components/CachedImage/CachedImage";
 import {
   useEffect,
   useRef,
@@ -196,7 +196,7 @@ export default function GameCard({
     >
       <div className={styles.cover}>
         {game.cover ? (
-          <Image
+          <CachedImage
             src={game.cover}
             alt=""
             fill
