@@ -9,6 +9,11 @@ import {
 import { downloadOrShareBackup } from "@/lib/backup-export";
 
 import {
+  getLibrarySearchEnabled,
+  setLibrarySearchEnabled,
+} from "@/lib/library-search-setting";
+
+import {
   getRawgApiKey,
   removeRawgApiKey,
   saveRawgApiKey,
@@ -76,6 +81,9 @@ export default function SettingsPage() {
   const [dataMessage, setDataMessage] =
     useState("");
 
+  const [librarySearchEnabled, setLibrarySearchEnabledState] =
+    useState(true);
+
   const [isImporting, setIsImporting] =
     useState(false);
 
@@ -85,6 +93,7 @@ export default function SettingsPage() {
 
     useEffect(() => {
       setApiKey(getRawgApiKey());
+      setLibrarySearchEnabledState(getLibrarySearchEnabled());
     }, []);
 
   function handleThemeChange(
@@ -331,6 +340,39 @@ export default function SettingsPage() {
           </div>
         </div>
       </section>
+
+<section className={styles.section}>
+  <h2>Library</h2>
+
+  <div className={styles.card}>
+    <div className={styles.settingInfo}>
+      <div className={styles.icon}>
+        <i className="bx bx-search" aria-hidden="true" />
+      </div>
+
+      <div>
+        <strong>Library Search</strong>
+        <span>Show a search bar in your game library.</span>
+      </div>
+    </div>
+
+    <label className={styles.settingToggle}>
+      <span>{librarySearchEnabled ? "Enabled" : "Disabled"}</span>
+
+      <input
+        type="checkbox"
+        checked={librarySearchEnabled}
+        onChange={(event) => {
+          const enabled = event.target.checked;
+
+          setLibrarySearchEnabledState(enabled);
+          setLibrarySearchEnabled(enabled);
+        }}
+        aria-label="Enable library search"
+      />
+    </label>
+  </div>
+</section>
 
   <section className={styles.section}>
     <h2>RAWG API</h2>

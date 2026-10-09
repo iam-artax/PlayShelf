@@ -313,6 +313,71 @@
   text-align: center;
 }
 
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 42px;
+  margin-bottom: 14px;
+  padding: 0 12px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.searchBox > i {
+  flex: 0 0 auto;
+  font-size: 1.05rem;
+}
+
+.searchBox input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0;
+
+  border: 0;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 0.75rem;
+}
+
+.searchBox input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.searchBox:focus-within {
+  border-color: var(--color-primary);
+}
+
+.searchBox button {
+  display: grid;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+
+  border: 0;
+  border-radius: 7px;
+
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+
+  cursor: pointer;
+}
+
+.searchBox button i {
+  font-size: 1.1rem;
+}
+
+
 @media (min-width: 420px) {
   .grid {
     grid-template-columns: repeat(
