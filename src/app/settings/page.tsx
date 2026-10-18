@@ -92,8 +92,14 @@ export default function SettingsPage() {
     const [apiKeyMessage, setApiKeyMessage] = useState("");
 
     useEffect(() => {
-      setApiKey(getRawgApiKey());
-      setLibrarySearchEnabledState(getLibrarySearchEnabled());
+      void (async () => {
+        try {
+          setApiKey(await getRawgApiKey(apiKey));
+        } catch {
+          setApiKey("");
+        }
+        setLibrarySearchEnabledState(getLibrarySearchEnabled());
+      })();
     }, []);
 
   function handleThemeChange(
@@ -129,10 +135,10 @@ export default function SettingsPage() {
     fileInputRef.current?.click();
   }
 
-  function handleSaveApiKey() {
+  async function handleSaveApiKey() {
     try {
-      saveRawgApiKey(apiKey);
-      setApiKey(getRawgApiKey());
+      await saveRawgApiKey(apiKey, apiKey);
+      setApiKey(await getRawgApiKey(apiKey));
       setApiKeyMessage("RAWG API key saved on this device.");
     } catch {
       setApiKeyMessage("Enter your RAWG API key first.");
